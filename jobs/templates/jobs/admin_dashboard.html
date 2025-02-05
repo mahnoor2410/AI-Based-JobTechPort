@@ -1,0 +1,66 @@
+{% extends "jobs/base.html" %}
+
+{% block content %}
+  <div class="container">
+    <h1 class="my-4 text-center">Admin Dashboard - Manage Applications</h1>
+    
+    <div class="table-responsive">
+      <table class="table table-striped text-center">
+        <thead>
+          <tr>
+            <th>Date and Time</th> <!-- Add Date and Time header -->
+            <th>Job Title</th>
+            <th>User</th>
+            <th>Resume</th>
+            <th>AI Rank Score</th>
+            <th>AI Processing Status</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for application in applications %}
+          <tr>
+            <td>{{ application.created_at|date:"Y-m-d H:i" }}</td> <!-- Display the date and time here -->
+            <td>{{ application.job.title }}</td>
+            <td>{{ application.user.username }}</td>
+            <td><a href="{{ application.resume.url }}" target="_blank" class="btn btn-link">View</a></td>
+            <td>{{ application.ai_rank_score }}</td>
+            <td>{{ application.ai_processing_status }}</td>
+            <td>{{ application.status }}</td>
+            <td>
+              <div class="d-flex flex-column flex-lg-row gap-2">
+                <!-- Form to update status -->
+                <form action="{% url 'update_status' application.id %}" method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <select name="status" class="form-select">
+                      <option value="Accepted" {% if application.status == 'Accepted' %}selected{% endif %}>Accepted</option>
+                      <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                      <option value="Pending" {% if application.status == 'Pending' %}selected{% endif %}>Pending</option>
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary mt-2 w-100">Update</button>
+                </form>
+
+                <!-- Form to update AI Processing Status -->
+                <form action="{% url 'update_ai_processing_status' application.id %}" method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <select name="ai_processing_status" class="form-select">
+                      <option value="Processing" {% if application.ai_processing_status == 'Processing' %}selected{% endif %}>Processing</option>
+                      <option value="Processed" {% if application.ai_processing_status == 'Processed' %}selected{% endif %}>Processed</option>
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-warning mt-2 w-100">AI Status</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
+

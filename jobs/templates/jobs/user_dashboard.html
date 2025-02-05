@@ -1,0 +1,58 @@
+{% extends 'jobs/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Your Applications</h2>
+
+    {% if applications %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'job_detail' application.job.id %}" class="text-decoration-none">
+                                    {{ application.job.title }}
+                                </a>
+                            </td>
+                            <td>
+                                {% if application.status == 'Accepted' %}
+                                    <span class="text-success fw-bold">Congrats! You are hired.</span>
+                                {% elif application.status == 'Rejected' %}
+                                    <span class="text-danger fw-bold">Unfortunately, your application was not selected.</span>
+                                {% else %}
+                                    <span class="text-warning fw-bold">Your application is under review.</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge 
+                                    {% if application.status == 'Accepted' %} bg-success 
+                                    {% elif application.status == 'Rejected' %} bg-danger 
+                                    {% else %} bg-warning text-dark 
+                                    {% endif %}">
+                                    {{ application.status }}
+                                </span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center fs-5 fw-medium" role="alert">
+            📭 You have no applications yet.
+        </div>
+    {% endif %}
+
+    <div class="text-center">
+        <a href="{% url 'job_list' %}" class="btn btn-primary mt-3">🔍 Explore Job Listings</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'jobs/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ job.title }}</h2>
+    <p><strong>Company:</strong> {{ job.company }}</p>
+    <p><strong>Location:</strong> {{ job.location }}</p>
+    <p><strong>Description:</strong> {{ job.description }}</p>
+    
+    {% if user.is_staff %}
+
+    <a href="{% url 'edit_job' job.id %}" class="btn btn-warning">Edit Job</a>
+    <!-- Delete Button with Modal Trigger -->
+    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Job</button>
+    
+    {% endif %}
+</div>
+
+{% endblock %}
+

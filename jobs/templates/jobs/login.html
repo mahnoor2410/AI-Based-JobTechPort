@@ -1,0 +1,37 @@
+{% extends 'jobs/base.html' %}
+
+{% block content %}
+<!-- Centered Login Form with Full Viewport Height and No Scrolling -->
+<div class="container d-flex justify-content-center align-items-center" style="height: 70vh; overflow: hidden;">
+    <div class="card p-4 shadow-lg" style="max-width: 500px; width: 100%;">
+        <h2 class="text-center mb-4 font-weight-bold">Login to Your Account</h2>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Username Field -->
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" id="id_username" value="">
+                {{ form.username.errors }}
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-3">
+                <label for="id_password" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="id_password" value="">
+                {{ form.password.errors }}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
+        </form>
+
+        <!-- Register Link -->
+        <p class="text-center mt-3">Don't have an account? <a href="{% url 'register' %}" class="text-decoration-none">Register here</a></p>
+        <p class="text-center mt-0"><a href="{% url 'home' %}">Go Back </a></p>
+
+    </div>
+    
+</div>
+
+{% endblock %}

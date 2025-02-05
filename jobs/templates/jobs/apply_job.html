@@ -1,0 +1,21 @@
+{% extends 'jobs/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Apply for {{ job.title }}</h2>
+    
+    <!-- Form for resume upload -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Form Group for File Input -->
+        <div class="mb-3">
+            <label for="id_resume" class="form-label">Upload Resume</label>
+            {{ form.resume }}
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
+{% endblock %}
